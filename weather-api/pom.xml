@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>modularscreen</artifactId>
+        <groupId>de.yggdrasil</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>weather-api</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <!--
+        Damit block() funktioniert, muss Tomcat laufen anstatt netty (wird durch webflux
+        gestartet.)
+        block() wird benötigt, wenn die Anwendung nicht der final consumer ist, also die Daten
+        weiterleitet, subscribe() nur bei final consumer, also die Daten selbst verarbeitet.
+        Siehe https://newbedev.com/springboot-how-to-use-webclient-instead-of-resttemplate-for-performing-non-blocking-and-asynchronous-calls
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
