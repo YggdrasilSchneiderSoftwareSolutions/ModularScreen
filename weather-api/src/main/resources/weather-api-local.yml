@@ -1,7 +1,8 @@
 openweathermap:
   # Hier API-Key definieren oder besser als Umgebungsvariable (wird geprüft siehe WeatherGatewayImpl)
   #api-key: xxxxxxxxx
-  zip-code: 00000
+  # Hier Zip-code (PLZ) angeben, oder als Umgebungsvariable
+  #zip-code: 00000
   country-code: de
   units: metric
   lang: de

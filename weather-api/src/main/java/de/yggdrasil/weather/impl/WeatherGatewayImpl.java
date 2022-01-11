@@ -5,7 +5,6 @@ import de.yggdrasil.weather.model.CurrentWeatherModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -20,7 +19,7 @@ public class WeatherGatewayImpl implements WeatherGateway {
     @Value("${openweathermap.api-key:}")
     private String openWeatherMapApiKey;
 
-    @Value("${openweathermap.zip-code:zip-code-not-set}")
+    @Value("${openweathermap.zip-code:}")
     private String zipCode;
 
     @Value("${openweathermap.country-code:country-code-not-set}")
@@ -38,18 +37,21 @@ public class WeatherGatewayImpl implements WeatherGateway {
     @Autowired
     private WebClient webClient;
 
-    @Autowired
-    private Environment environment;
-
     @PostConstruct
-    private void checkApiKey() {
-        // Prüfung, ob API-Key über property-file gestzt wurde. Falls nicht, wird
-        // Env var verwendet.
+    private void checkApiKeyAndZipCode() {
+        // Prüfung, ob API-Key und zip-code über property-file gestzt wurde.
+        // Falls nicht, wird Env var verwendet.
         if (openWeatherMapApiKey.isEmpty()) {
             log.info("API-Key for openweathermap was not set in property-file...trying to set it via environment variable");
             String apiKeyEnvironmentVar = System.getenv("api-key");
             openWeatherMapApiKey = apiKeyEnvironmentVar.isEmpty() ? "api-key-not-set"
                     : apiKeyEnvironmentVar;
+        }
+        if (zipCode.isEmpty()) {
+            log.info("Zip-code for openweathermap was not set in property-file...trying to set it via environment variable");
+            String zipCodeEnvironmentVar = System.getenv("zip-code");
+            zipCode = zipCodeEnvironmentVar.isEmpty() ? "zip-code-not-set"
+                    : zipCodeEnvironmentVar;
         }
     }
 
