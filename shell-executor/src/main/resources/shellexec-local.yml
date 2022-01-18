@@ -1,0 +1,3 @@
+shell-executor:
+  python-executor:
+    python-command: sudo python3

@@ -25,6 +25,7 @@
     <modules>
         <module>modularscreen-application</module>
         <module>weather-api</module>
+        <module>shell-executor</module>
     </modules>
 
     <dependencies>

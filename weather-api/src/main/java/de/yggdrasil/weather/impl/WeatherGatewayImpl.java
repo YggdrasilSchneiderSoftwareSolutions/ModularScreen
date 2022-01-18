@@ -19,26 +19,19 @@ public class WeatherGatewayImpl implements WeatherGateway {
     @Value("${openweathermap.api-key:}")
     private String openWeatherMapApiKey;
 
-    @Value("${openweathermap.zip-code:}")
-    private String zipCode;
-
-    @Value("${openweathermap.country-code:country-code-not-set}")
-    private String countryCode;
-
-    @Value("${openweathermap.units:metric}")
-    private String units;
-
-    @Value("${openweathermap.lang:de}")
-    private String lang;
-
     @Value("${openweathermap.uri:}")
     private String uri;
+
+    private String zipCode;
+    private String countryCode;
+    private String units;
+    private String lang;
 
     @Autowired
     private WebClient webClient;
 
     @PostConstruct
-    private void checkApiKeyAndZipCode() {
+    private void checkApiKey() {
         // Prüfung, ob API-Key und zip-code über property-file gestzt wurde.
         // Falls nicht, wird Env var verwendet.
         if (openWeatherMapApiKey.isEmpty()) {
@@ -47,17 +40,17 @@ public class WeatherGatewayImpl implements WeatherGateway {
             openWeatherMapApiKey = apiKeyEnvironmentVar.isEmpty() ? "api-key-not-set"
                     : apiKeyEnvironmentVar;
         }
-        if (zipCode.isEmpty()) {
-            log.info("Zip-code for openweathermap was not set in property-file...trying to set it via environment variable");
-            String zipCodeEnvironmentVar = System.getenv("zip-code");
-            zipCode = zipCodeEnvironmentVar.isEmpty() ? "zip-code-not-set"
-                    : zipCodeEnvironmentVar;
-        }
     }
 
     @Override
-    public CurrentWeatherModel fetchWeather() {
+    public CurrentWeatherModel fetchWeather(String zipCode, String countryCode, String units, String lang) {
+        this.zipCode = zipCode;
+        this.countryCode = countryCode;
+        this.units = units;
+        this.lang = lang;
+
         Mono<CurrentWeatherModel> weatherApiRequest = buildWeatherApiRequest();
+
         return weatherApiRequest.block();
     }
 
