@@ -1,3 +1,4 @@
 shell-executor:
   python-executor:
     python-command: sudo python3
+    script-directory: home/pi

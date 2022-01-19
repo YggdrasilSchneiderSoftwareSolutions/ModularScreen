@@ -25,7 +25,12 @@
 		<dependency>
 			<groupId>de.yggdrasil</groupId>
 			<artifactId>weather-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.yggdrasil</groupId>
+			<artifactId>shell-executor</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 

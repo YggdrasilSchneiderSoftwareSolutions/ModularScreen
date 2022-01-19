@@ -15,27 +15,23 @@ public class PythonExecutorTest {
     @BeforeAll
     public static void setUp() {
         pythonExecutor = new PythonExecutor();
+        String scriptPath = Paths.get("").toAbsolutePath().toString()
+                + "/src/test/resources/";
         ReflectionTestUtils.setField(pythonExecutor, "pythonCommand", "python",
+                String.class);
+        ReflectionTestUtils.setField(pythonExecutor, "scriptDirectory", scriptPath,
                 String.class);
     }
 
     @Test
     public void testRunPythonScript() {
-        String scriptPath = resolveScriptPath("test.py");
-        ProcessOutput output = pythonExecutor.runCommand(scriptPath);
+        ProcessOutput output = pythonExecutor.runCommand("test.py");
         assert output.getReturnCode() == 0;
         assert output.getOutputs().size() == 1;
     }
 
     @Test
     public void testRunAsyncScript() {
-        String scriptPath = resolveScriptPath("test.py");
-        pythonExecutor.runCommandAsync(scriptPath);
-    }
-
-    private String resolveScriptPath(String scriptName) {
-        return Paths.get("").toAbsolutePath()
-                + "/src/test/resources/"
-                + scriptName;
+        pythonExecutor.runCommandAsync("test.py");
     }
 }
